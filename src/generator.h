@@ -51,6 +51,13 @@ public:
     void cancelAsyncGenerate();
 
     /**
+     * Generates a random filled valid Sudoku board.
+     * 
+     * @return the generated Sudoku board.
+     */
+    Board fullSudokuBoard();
+
+    /**
      * The maximum number of empty positions in a board generated for a 
      * given difficulty level.
      * 

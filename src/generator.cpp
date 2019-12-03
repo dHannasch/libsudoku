@@ -223,3 +223,8 @@ bool Generator::processGenCancelled(const GeneratorFinishedCallback &fnFinished)
     }
 
 }
+
+Board Generator::fullSudokuBoard()
+{
+    return fullSudokuBoardGivenCandidates(randomPermutationOfIntegers(nullptr), nullptr, 1, 1);
+}

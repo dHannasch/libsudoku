@@ -6,6 +6,7 @@
 #include <functional>
 #include <thread>
 #include <utility>
+#include <vector>
 
 namespace sudoku
 {
@@ -14,17 +15,17 @@ class Board;
 
 enum class PuzzleDifficulty : uint8_t
 {
-    EASY,
-    MEDIUM,
-    HARD
+    Easy,
+    Medium,
+    Hard
 };
 
 enum class GeneratorResult: uint8_t
 {
-    NO_ERROR,
-    ASYNC_GEN_CANCELLED,
-    ASYNC_GEN_SUBMITTED,
-    ASYNC_GEN_BUSY
+    NoError,
+    AsyncGenCancelled,
+    AsyncGenSubmitted,
+    AsyncGenBusy
 };
 
 // Signature of callback to report result of an async generation process.
@@ -51,6 +52,13 @@ public:
     void cancelAsyncGenerate();
 
     /**
+     * Generates a random filled valid Sudoku board.
+     * 
+     * @return the generated Sudoku board.
+     */
+    Board fullSudokuBoard();
+
+    /**
      * The maximum number of empty positions in a board generated for a 
      * given difficulty level.
      * 
@@ -72,6 +80,13 @@ public:
     static uint8_t minEmptyPositions(PuzzleDifficulty difficulty) noexcept;
 
 private:
+
+    std::vector<uint8_t> randomPermutationOfIntegers(GeneratorFinishedCallback fnFinished);
+
+    Board fullSudokuBoardGivenCandidates(std::vector<uint8_t> candidates,
+                                         GeneratorProgressCallback fnProgress,
+                                         GeneratorFinishedCallback fnFinished,
+                                         uint8_t& currentStep, const uint8_t totalSteps);
 
     void generate(PuzzleDifficulty difficulty,
                   GeneratorProgressCallback fnProgress,
